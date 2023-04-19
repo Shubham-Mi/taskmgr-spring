@@ -1,15 +1,15 @@
 package com.example.taskmgrspring.tasks;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.taskmgrspring.notes.NoteEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -19,9 +19,10 @@ public class TaskEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
     private String title;
     private String  description;
     private boolean completed;
     private Date dueDate;
+    @OneToMany(targetEntity = NoteEntity.class, cascade = CascadeType.ALL, mappedBy = "task")
+    private List<NoteEntity> notes;
 }

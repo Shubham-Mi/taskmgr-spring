@@ -1,16 +1,14 @@
 package com.example.taskmgrspring.tasks;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 @Service
 public class TasksService {
-    private final TasksRepository tasksRepository;
-
-    public TasksService(TasksRepository tasksRepository) {
-        this.tasksRepository = tasksRepository;
-    }
+    @Autowired
+    private TasksRepository tasksRepository;
 
     public TaskEntity createTask(String title, String description, Date dueDate) {
         TaskEntity taskEntity = new TaskEntity();
