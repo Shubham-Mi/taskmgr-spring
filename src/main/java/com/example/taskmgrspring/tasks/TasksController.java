@@ -5,10 +5,8 @@ import com.example.taskmgrspring.tasks.dtos.TaskResponseDto;
 import com.example.taskmgrspring.tasks.exceptions.TaskNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -37,7 +35,19 @@ public class TasksController {
         TaskResponseDto task = tasksService.getTaskById(id);
         return ResponseEntity.ok(task);
     }
-    
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<TaskResponseDto> patchTask(@PathVariable("id") Long id, @RequestBody CreateTaskDto updatedTask) {
+        TaskResponseDto taskResponse = tasksService.patchTask(id, updatedTask);
+        return ResponseEntity.ok(taskResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTask(@PathVariable("id") Long id) {
+        tasksService.deleteTask(id);
+        return ResponseEntity.ok("Deleted successfully");
+    }
+
     @ExceptionHandler({IllegalArgumentException.class, TaskNotFoundException.class})
     public ResponseEntity<String> handleExceptions(Exception e) {
         return ResponseEntity.badRequest().body(e.getMessage());

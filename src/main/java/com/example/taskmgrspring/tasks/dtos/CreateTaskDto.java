@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 public class CreateTaskDto {
-    @NonNull String title;
+    String title;
     String description;
-    @NonNull Date dueDate;
+    Date dueDate;
 }

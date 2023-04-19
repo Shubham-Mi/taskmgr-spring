@@ -40,4 +40,24 @@ public class TasksService {
         List<TaskEntity> tasks = tasksRepository.findAll();
         return tasks.stream().map(task -> modelMapper.map(task, TaskResponseDto.class)).collect(Collectors.toList());
     }
+
+    public void deleteTask(Long id) {
+        TaskEntity task = tasksRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
+        tasksRepository.delete(task);
+    }
+
+    public TaskResponseDto patchTask(Long id, CreateTaskDto updatedTask) {
+        TaskEntity task = tasksRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
+        if (updatedTask.getTitle() != null) {
+            task.setTitle(updatedTask.getTitle());
+        }
+        if (updatedTask.getDescription() != null) {
+            task.setDescription(updatedTask.getDescription());
+        }
+        if (updatedTask.getDueDate() != null) {
+            task.setDueDate(updatedTask.getDueDate());
+        }
+        tasksRepository.save(task);
+        return modelMapper.map(task, TaskResponseDto.class);
+    }
 }
