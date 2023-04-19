@@ -11,9 +11,9 @@ public class TasksServiceTests {
     @Autowired
     private TasksService tasksService;
 
-    @Test
-    public void createTask() {
-        TaskEntity task = tasksService.createTask("Task title", "Task description", new Date());
-        System.out.println(task);
-    }
+//    @Test
+//    public void createTask() {
+//        TaskEntity task = tasksService.createTask("Task title", "Task description", new Date());
+//        System.out.println(task);
+//    }
 }

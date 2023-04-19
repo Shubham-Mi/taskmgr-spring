@@ -1,7 +1,10 @@
 package com.example.taskmgrspring;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 
 @SpringBootApplication
 public class TaskmgrSpringApplication {
@@ -10,4 +13,9 @@ public class TaskmgrSpringApplication {
 		SpringApplication.run(TaskmgrSpringApplication.class, args);
 	}
 
+	@Bean
+	@Scope("singleton")
+	ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
 }
