@@ -19,9 +19,12 @@ public class TaskEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @Column(nullable = false)
     private String title;
     private String  description;
+    @Column(nullable = false)
     private boolean completed;
+    @Column(nullable = false)
     private Date dueDate;
     @OneToMany(targetEntity = NoteEntity.class, cascade = CascadeType.ALL, mappedBy = "task")
     private List<NoteEntity> notes;
