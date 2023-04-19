@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/tasks/{taskId}/notes")
@@ -26,13 +27,15 @@ public class NotesController {
     }
 
     @GetMapping("")
-    public ArrayList<NoteEntity> getAllNotesByTaskId(@PathVariable("taskId") Long taskId) {
-        return null;
+    public ResponseEntity<List<NoteResponseDto>> getAllNotesByTaskId(@PathVariable("taskId") Long taskId) {
+        List<NoteResponseDto> noteResponse = notesService.getAllTasks(taskId);
+        return ResponseEntity.ok(noteResponse);
     }
 
     @DeleteMapping("/{noteId}")
-    public ArrayList<NoteEntity> deleteNoteByNoteId(@PathVariable("noteId") Long noteId) {
-        return null;
+    public ResponseEntity<String> deleteNoteByNoteId(@PathVariable("noteId") Long noteId) {
+        notesService.deleteNote(noteId);
+        return ResponseEntity.ok("Deleted successfully");
     }
 
     @ExceptionHandler({IllegalArgumentException.class, TaskNotFoundException.class, NoteNotFoundException.class})

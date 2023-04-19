@@ -2,10 +2,15 @@ package com.example.taskmgrspring.notes;
 
 import com.example.taskmgrspring.notes.dtos.CreateNoteDto;
 import com.example.taskmgrspring.notes.dtos.NoteResponseDto;
+import com.example.taskmgrspring.notes.exceptions.NoteNotFoundException;
 import com.example.taskmgrspring.tasks.TaskEntity;
 import com.example.taskmgrspring.tasks.TasksService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class NotesService {
@@ -25,5 +30,15 @@ public class NotesService {
         note.setTask(task);
         NoteEntity savedNote = notesRepository.save(note);
         return modelMapper.map(savedNote, NoteResponseDto.class);
+    }
+
+    public List<NoteResponseDto> getAllTasks(Long taskId) {
+        TaskEntity task = tasksService.getTaskEntity(taskId);
+        List<NoteEntity> notes = task.getNotes();
+        return notes.stream().map(note -> modelMapper.map(note, NoteResponseDto.class)).collect(Collectors.toList());
+    }
+
+    public void deleteNote(Long noteId) {
+        notesRepository.deleteById(noteId);
     }
 }

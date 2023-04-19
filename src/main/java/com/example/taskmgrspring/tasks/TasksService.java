@@ -45,9 +45,8 @@ public class TasksService {
         return tasks.stream().map(task -> modelMapper.map(task, TaskResponseDto.class)).collect(Collectors.toList());
     }
 
-    public void deleteTask(Long id) {
-        TaskEntity task = tasksRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
-        tasksRepository.delete(task);
+    public void deleteTask(Long taskId) {
+        tasksRepository.deleteById(taskId);
     }
 
     public TaskResponseDto patchTask(Long id, CreateTaskDto updatedTask) {
