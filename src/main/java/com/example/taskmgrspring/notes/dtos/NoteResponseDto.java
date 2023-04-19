@@ -1,0 +1,11 @@
+package com.example.taskmgrspring.notes.dtos;
+
+import lombok.Data;
+
+@Data
+public class NoteResponseDto {
+    private Long id;
+    private String title;
+    private String description;
+    private Long taskId;
+}

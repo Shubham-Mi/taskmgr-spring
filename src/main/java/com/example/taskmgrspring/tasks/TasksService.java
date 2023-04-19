@@ -20,6 +20,10 @@ public class TasksService {
         this.modelMapper = modelMapper;
     }
 
+    public TaskEntity getTaskEntity(Long id) {
+        return tasksRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
+    }
+
     public TaskResponseDto createTask(CreateTaskDto newTask) {
 //        Data validation
         if (newTask.getDueDate().before(new Date())) {

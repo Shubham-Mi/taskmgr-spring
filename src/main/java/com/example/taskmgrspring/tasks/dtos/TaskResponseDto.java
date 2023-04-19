@@ -1,8 +1,10 @@
 package com.example.taskmgrspring.tasks.dtos;
 
+import com.example.taskmgrspring.notes.dtos.NoteResponseDto;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class TaskResponseDto {
@@ -11,4 +13,5 @@ public class TaskResponseDto {
     private String description;
     private Boolean completed;
     private Date dueDate;
+    private List<NoteResponseDto> notes;
 }
