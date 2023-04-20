@@ -1,8 +1,10 @@
 package com.example.taskmgrspring.tasks;
 
+import com.example.taskmgrspring.common.ErrorResponseDto;
 import com.example.taskmgrspring.tasks.dtos.CreateTaskDto;
 import com.example.taskmgrspring.tasks.dtos.TaskResponseDto;
 import com.example.taskmgrspring.tasks.exceptions.TaskNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +51,10 @@ public class TasksController {
     }
 
     @ExceptionHandler({IllegalArgumentException.class, TaskNotFoundException.class})
-    public ResponseEntity<String> handleExceptions(Exception e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+    public ResponseEntity<ErrorResponseDto> handleExceptions(Exception e) {
+        if (e instanceof TaskNotFoundException) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(e.getMessage()));
+        }
+        return ResponseEntity.badRequest().body(new ErrorResponseDto(e.getMessage()));
     }
 }

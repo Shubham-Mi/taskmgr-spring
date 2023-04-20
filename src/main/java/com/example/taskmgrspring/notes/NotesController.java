@@ -1,14 +1,15 @@
 package com.example.taskmgrspring.notes;
 
+import com.example.taskmgrspring.common.ErrorResponseDto;
 import com.example.taskmgrspring.notes.dtos.CreateNoteDto;
 import com.example.taskmgrspring.notes.dtos.NoteResponseDto;
 import com.example.taskmgrspring.notes.exceptions.NoteNotFoundException;
 import com.example.taskmgrspring.tasks.exceptions.TaskNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -39,7 +40,10 @@ public class NotesController {
     }
 
     @ExceptionHandler({IllegalArgumentException.class, TaskNotFoundException.class, NoteNotFoundException.class})
-    public ResponseEntity<String> handleExceptions(Exception e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
+    public ResponseEntity<ErrorResponseDto> handleExceptions(Exception e) {
+        if (e instanceof TaskNotFoundException || e instanceof NoteNotFoundException) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponseDto(e.getMessage()));
+        }
+        return ResponseEntity.badRequest().body(new ErrorResponseDto(e.getMessage()));
     }
 }
